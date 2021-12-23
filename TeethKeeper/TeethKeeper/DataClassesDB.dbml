@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DataBase" Class="DataClassesDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\DataBase.mdf;Integrated Security=True;Connect Timeout=30" SettingsObjectName="TeethKeeper.Properties.Settings" SettingsPropertyName="DataBaseConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.FARMACO" Member="FARMACO">
+    <Type Name="FARMACO">
+      <Column Name="CodFarmaco" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Effetti_Collaterali" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Association Name="ASSUNZIONE_FARMACO_FARMACO" Member="ASSUNZIONE_FARMACO" ThisKey="CodFarmaco" OtherKey="CodFarmaco" Type="ASSUNZIONE_FARMACO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AFFIL_SEPARAZ" Member="AFFIL_SEPARAZ">
+    <Type Name="AFFIL_SEPARAZ">
+      <Column Name="CodPaziente" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CodMedico" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="A_S" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Association Name="AFFIL_SEPARAZ_PAZIENTE" Member="PAZIENTE" ThisKey="CodPaziente" OtherKey="CodFiscale" Type="PAZIENTE" />
+      <Association Name="MEDICO_AFFIL_SEPARAZ" Member="MEDICO" ThisKey="CodMedico" OtherKey="Cod_Fiscale" Type="MEDICO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.APPUNTAMENTO" Member="APPUNTAMENTO">
+    <Type Name="APPUNTAMENTO">
+      <Column Name="CodPersona" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ora" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="APPUNTAMENTO_PAZIENTE" Member="PAZIENTE" ThisKey="CodPersona" OtherKey="CodFiscale" Type="PAZIENTE" />
+      <Association Name="TRATTAMENTO_APPUNTAMENTO" Member="TRATTAMENTO" ThisKey="Data_,Ora" OtherKey="Data_,Ora" Type="TRATTAMENTO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ASSUNZIONE_FARMACO" Member="ASSUNZIONE_FARMACO">
+    <Type Name="ASSUNZIONE_FARMACO">
+      <Column Name="CodFarmaco" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CodPaziente" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DataPrescrizione" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DataFineAssunzione" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="ASSUNZIONE_FARMACO_FARMACO" Member="FARMACO" ThisKey="CodFarmaco" OtherKey="CodFarmaco" Type="FARMACO" />
+      <Association Name="ASSUNZIONE_FARMACO_PAZIENTE" Member="PAZIENTE" ThisKey="CodPaziente" OtherKey="CodFiscale" Type="PAZIENTE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ATTREZZATURA" Member="ATTREZZATURA">
+    <Type Name="ATTREZZATURA">
+      <Column Name="Codice" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Prezzo_Unitario" Type="System.Decimal" DbType="Decimal(4,2) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ESAME" Member="ESAME">
+    <Type Name="ESAME">
+      <Column Name="CodEsame" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="ESAME_ESEC_ESAME" Member="ESEC_ESAME" ThisKey="CodEsame" OtherKey="CodEsame" Type="ESEC_ESAME" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ESAURITA" Member="ESAURITA">
+    <Type Name="ESAURITA">
+      <Column Name="CodPersona" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ora" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CodAttrezzatura" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Quantità" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ESEC_ESAME" Member="ESEC_ESAME">
+    <Type Name="ESEC_ESAME">
+      <Column Name="CodPaziente" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CodEsame" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Esito" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Association Name="ESEC_ESAME_PAZIENTE" Member="PAZIENTE" ThisKey="CodPaziente" OtherKey="CodFiscale" Type="PAZIENTE" />
+      <Association Name="ESAME_ESEC_ESAME" Member="ESAME" ThisKey="CodEsame" OtherKey="CodEsame" Type="ESAME" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MEDICO" Member="MEDICO">
+    <Type Name="MEDICO">
+      <Column Name="Nome" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Cognome" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Cod_Fiscale" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Telefono" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="Sesso" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Association Name="MEDICO_AFFIL_SEPARAZ" Member="AFFIL_SEPARAZ" ThisKey="Cod_Fiscale" OtherKey="CodMedico" Type="AFFIL_SEPARAZ" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PATOLOGIA" Member="PATOLOGIA">
+    <Type Name="PATOLOGIA">
+      <Column Name="CodPaziente" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DataDiagnosi" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tipologia" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Descrizione" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Association Name="PATOLOGIA_PAZIENTE" Member="PAZIENTE" ThisKey="CodPaziente" OtherKey="CodFiscale" Type="PAZIENTE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PAZIENTE" Member="PAZIENTE">
+    <Type Name="PAZIENTE">
+      <Column Name="Nome" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Cognome" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="CodFiscale" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Telefono" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="Sesso" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="Via" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NumeroCivico" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="Città" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="CAP" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="CittaNascita" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="DataNascita" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="DataMorte" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="AFFIL_SEPARAZ_PAZIENTE" Member="AFFIL_SEPARAZ" ThisKey="CodFiscale" OtherKey="CodPaziente" Type="AFFIL_SEPARAZ" IsForeignKey="true" />
+      <Association Name="ESEC_ESAME_PAZIENTE" Member="ESEC_ESAME" ThisKey="CodFiscale" OtherKey="CodPaziente" Type="ESEC_ESAME" IsForeignKey="true" />
+      <Association Name="ASSUNZIONE_FARMACO_PAZIENTE" Member="ASSUNZIONE_FARMACO" ThisKey="CodFiscale" OtherKey="CodPaziente" Type="ASSUNZIONE_FARMACO" IsForeignKey="true" />
+      <Association Name="APPUNTAMENTO_PAZIENTE" Member="APPUNTAMENTO" ThisKey="CodFiscale" OtherKey="CodPersona" Type="APPUNTAMENTO" IsForeignKey="true" />
+      <Association Name="TRATTAMENTO_PAZIENTE" Member="TRATTAMENTO" ThisKey="CodFiscale" OtherKey="CodPersona" Type="TRATTAMENTO" IsForeignKey="true" />
+      <Association Name="SCHEDA_CLINICA_PAZIENTE" Member="SCHEDA_CLINICA" ThisKey="CodFiscale" OtherKey="CodPaziente" Type="SCHEDA_CLINICA" IsForeignKey="true" />
+      <Association Name="PATOLOGIA_PAZIENTE" Member="PATOLOGIA" ThisKey="CodFiscale" OtherKey="CodPaziente" Type="PATOLOGIA" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PRESCRIZIONE" Member="PRESCRIZIONE">
+    <Type Name="PRESCRIZIONE">
+      <Column Name="CodPersona" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ora" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CodTerapia" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Durata" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NumeroSomministrazioni" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DoseSomministrazione" Type="System.Decimal" DbType="Decimal(4,2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.QUANTITA" Member="QUANTITA">
+    <Type Name="QUANTITA">
+      <Column Name="CodAttrezzatura" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NumeroElementi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RIFORNIMENTO" Member="RIFORNIMENTO">
+    <Type Name="RIFORNIMENTO">
+      <Column Name="CodAttrezzatura" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Quantità" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SCHEDA_CLINICA" Member="SCHEDA_CLINICA">
+    <Type Name="SCHEDA_CLINICA">
+      <Column Name="CodPaziente" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Fumatore" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Sport" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="Alcol" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Association Name="SCHEDA_CLINICA_PAZIENTE" Member="PAZIENTE" ThisKey="CodPaziente" OtherKey="CodFiscale" Type="PAZIENTE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TERAPIA" Member="TERAPIA">
+    <Type Name="TERAPIA">
+      <Column Name="CodTerapia" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CodFarmaco" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CodEsame" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TRATTAMENTO" Member="TRATTAMENTO">
+    <Type Name="TRATTAMENTO">
+      <Column Name="CodPersona" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ora" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Descrizione" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Diagnosi" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="Tipologia" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Association Name="TRATTAMENTO_APPUNTAMENTO" Member="APPUNTAMENTO" ThisKey="Data_,Ora" OtherKey="Data_,Ora" Type="APPUNTAMENTO" />
+      <Association Name="TRATTAMENTO_PAZIENTE" Member="PAZIENTE" ThisKey="CodPersona" OtherKey="CodFiscale" Type="PAZIENTE" />
+    </Type>
+  </Table>
+</Database>
